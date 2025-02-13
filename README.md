@@ -7,3 +7,7 @@ Utilizar os componentes e pacotes Nuget gratuitos:
 
 API
 - [https://platform.openai.com/docs/guides/speech-to-text] OpenAI Speech to Text - Transcrever os áudios
+
+
+Utilizar o MAUI para um aplicativo Windows e Mac, no Desktop.
+Criar uma API para o backend do sistema.
