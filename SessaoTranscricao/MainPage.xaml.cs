@@ -1,25 +1,38 @@
-﻿namespace SessaoTranscricao
+﻿namespace SessaoTranscricao;
+
+public partial class MainPage : ContentPage
 {
-    public partial class MainPage : ContentPage
+    private readonly IAudioService _audioService;
+
+    public string VideoUrl { get; set; }
+
+    public MainPage(IAudioService service)
     {
-        int count = 0;
+        InitializeComponent();
 
-        public MainPage()
-        {
-            InitializeComponent();
-        }
-
-        private void OnCounterClicked(object sender, EventArgs e)
-        {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
-        }
+        _audioService = service;
     }
 
+    private async void LoadVideo()
+    {
+        var youtube = new YoutubeClient();
+        var videoUrl = "https://www.youtube.com/watch?v=JE0VEmV8zw4";
+
+        var streamManifest = await youtube.Videos.Streams.GetManifestAsync(videoUrl);
+        var teste = streamManifest.GetVideoStreams();
+        var streamInfo = teste.GetWithHighestVideoQuality();
+
+        VideoUrl = streamInfo.Url;
+        OnPropertyChanged(nameof(VideoUrl));
+
+        // Extraia o áudio para um stream
+        var audioStream = await _audioService.ExtractAudioToStream(videoUrl);
+
+        // Transcreva o áudio
+        var transcription = await _audioService.TranscribeAudio(audioStream);
+
+        LabelPrincipal.Text = transcription;
+    }
+
+    private void CounterBtn_Clicked(object sender, EventArgs e) => LoadVideo();
 }
