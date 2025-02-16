@@ -22,3 +22,7 @@ Pedi ajuda da DeepSeek para auxiliar no projeto e sugerir ferramentas gratuitas:
 - Publicação: WordPress ou site estático.
 
 Planejo publicar as falas de cada sessão através do GitHubPages utilizando o Blazor para essa tarefa.
+
+---
+
+Outro ótimo plano é utilizar o Docker para separar o serviço do Whisper (transcrição) e a API em C#. Como Whisper é uma lib em Python posso criar uma tratativa para expor como uma API suas funcionalidades.
