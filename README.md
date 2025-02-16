@@ -11,3 +11,14 @@ API
 
 Utilizar o MAUI para um aplicativo Windows e Mac, no Desktop.
 Criar uma API para o backend do sistema.
+
+---
+
+Pedi ajuda da DeepSeek para auxiliar no projeto e sugerir ferramentas gratuitas:
+- Extrair Áudio: FFmpeg.
+- Transcrição: Whisper (Open Source) ou Google Speech-to-Text (60 minutos grátis/mês).
+- Diarização: PyAnnote (Open Source) ou identificação manual por padrões.
+- Sumarização: Hugging Face Transformers (Open Source) ou ChatGPT (limite gratuito).
+- Publicação: WordPress ou site estático.
+
+Planejo publicar as falas de cada sessão através do GitHubPages utilizando o Blazor para essa tarefa.
