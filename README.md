@@ -26,3 +26,59 @@ Planejo publicar as falas de cada sessão através do GitHubPages utilizando o B
 ---
 
 Outro ótimo plano é utilizar o Docker para separar o serviço do Whisper (transcrição) e a API em C#. Como Whisper é uma lib em Python posso criar uma tratativa para expor como uma API suas funcionalidades.
+
+---
+
+Esse foi o bloco de código sugerido pelo DeepSeek para comunicação com os modelos de IA da Hugging Face.
+Segue o link da página com mais modelos, além do GPT2:
+https://huggingface.co/models
+
+```cs
+using System;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+
+class Program
+{
+    private static readonly string apiUrl = "https://api-inference.huggingface.co/models/gpt2"; // Endpoint do modelo GPT-2
+    private static readonly string apiKey = "seu-token-aqui"; // Substitua pelo seu token do Hugging Face
+
+    static async Task Main(string[] args)
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            // Adiciona o token de autenticação no cabeçalho
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+
+            // Define o texto de entrada
+            var requestBody = new
+            {
+                inputs = "Explique o que é inteligência artificial em uma frase."
+            };
+
+            // Converte o corpo da requisição para JSON
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(requestBody);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Faz a chamada POST para a API
+            HttpResponseMessage response = await client.PostAsync(apiUrl, content);
+
+            // Verifica se a requisição foi bem-sucedida
+            if (response.IsSuccessStatusCode)
+            {
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Resposta do Hugging Face:");
+                Console.WriteLine(responseJson);
+            }
+            else
+            {
+                Console.WriteLine("Erro na requisição:");
+                Console.WriteLine($"Status Code: {response.StatusCode}");
+                string errorResponse = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(errorResponse);
+            }
+        }
+    }
+}
+```
